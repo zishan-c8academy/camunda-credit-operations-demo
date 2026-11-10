@@ -1,11 +1,16 @@
 """Show a case: path taken, incidents, decisions, key variables.  python3 scripts/status.py <processInstanceKey> [--wait 120]"""
-import json, sys, time, urllib.request
+import json, os, sys, time, urllib.request
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import c8  # noqa: E402
+
+API = "http://127.0.0.1:" + c8.cfg.get("CB_PORT", "5690")
 
 key = sys.argv[1]
 wait = int(sys.argv[sys.argv.index("--wait") + 1]) if "--wait" in sys.argv else 0
 t0 = time.time()
 while True:
-    d = json.load(urllib.request.urlopen(f"http://127.0.0.1:5690/api/case/{key}", timeout=60))
+    d = json.load(urllib.request.urlopen(f"{API}/api/case/{key}", timeout=60))
     if "instance" not in d:
         time.sleep(3)
         continue

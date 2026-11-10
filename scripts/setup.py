@@ -65,5 +65,5 @@ print("   deployed", ", ".join(f"{n} {names.get(k, k)}" for k, n in kinds.items(
 json.dump({"autoApplyMinConfidence": 0.9}, open(os.path.join(ROOT, "data", "policy_state.json"), "w"))
 
 print(f"\nDone. Next: create the connector secret {c8.cfg.get('CB_LLM_SECRET_NAME', 'CB_LLM_API_KEY')} if you have not (README, step 3), then")
-print("   python3 app/server.py            # workbench and job workers on http://127.0.0.1:5690")
+print(f"   python3 app/server.py            # workbench and job workers on http://127.0.0.1:{c8.cfg.get('CB_PORT', '5690')}")
 print("   python3 scripts/stage_demo.py    # in a second terminal: put work in every queue")

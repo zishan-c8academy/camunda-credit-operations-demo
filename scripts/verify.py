@@ -9,7 +9,10 @@ Prints a PASS/FAIL matrix and writes docs/VERIFY_LOG.md.
 """
 import json, os, sys, threading, time, urllib.request
 
-API = "http://127.0.0.1:5690"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import c8  # noqa: E402
+
+API = "http://127.0.0.1:" + c8.cfg.get("CB_PORT", "5690")
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RESULTS = []
 lock = threading.Lock()
