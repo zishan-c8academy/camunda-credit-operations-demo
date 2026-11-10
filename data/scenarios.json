@@ -1,0 +1,71 @@
+{
+  "disputes": {
+    "latePayment": {
+      "start": {"disputeId": "D-26-10421", "consumerId": "C-88310427", "consumerName": "Jordan Ellis", "jurisdiction": "US", "disputeType": "LATE_PAYMENT",
+        "vulnerableConsumer": false, "channel": "Online dispute centre", "furnisher": "Meridian Card Services", "accountRef": "****4417",
+        "consumerStatement": "I paid this bill on 2 March, before the due date. My bank statement shows the payment. Please remove the late payment."},
+      "furnisher": {"respondAfterSeconds": 6, "position": "AGREES_WITH_CONSUMER", "code": "MODIFY",
+        "detail": "Payment received 2026-03-02 but posted 2026-04-04 after a processing error. Remove the 30-day late for March 2026."},
+      "expect": {"route": "AUTO_APPLY", "rule": "A-06", "recommendation": "CORRECT"}
+    },
+    "identityFraud": {
+      "start": {"disputeId": "D-26-10422", "consumerId": "C-88310988", "consumerName": "Priya Raman", "jurisdiction": "US", "disputeType": "NOT_MINE",
+        "vulnerableConsumer": false, "channel": "Mail (scanned)", "furnisher": "Lakeshore Auto Finance", "accountRef": "****9052",
+        "consumerStatement": "I never opened an auto loan with Lakeshore. I have never lived in Nevada. I filed an identity theft report."},
+      "furnisher": {"respondAfterSeconds": 6, "position": "VERIFIED", "code": "VERIFIED_AS_REPORTED",
+        "detail": "Account verified as reported. Application completed online 2026-06-14 with matching name and date of birth."},
+      "expect": {"route": "REVIEW", "rule": "A-01", "group": "fraud-compliance"}
+    },
+    "balanceTiming": {
+      "start": {"disputeId": "D-26-10423", "consumerId": "C-ZA-5521907", "consumerName": "Thandiwe Mokoena", "jurisdiction": "ZA", "disputeType": "BALANCE_INCORRECT",
+        "vulnerableConsumer": false, "channel": "Call centre, Johannesburg", "furnisher": "Ubuntu Home Furnishers", "accountRef": "****2271",
+        "consumerStatement": "My store card balance shows R14,820 but I paid R5,500 on 28 September. The balance should be R9,320."},
+      "furnisher": {"respondAfterSeconds": 6, "position": "VERIFIED", "code": "VERIFIED_AS_REPORTED",
+        "detail": "Balance of ZAR 14,820 was correct at the reporting date of 2026-09-25. The payment of ZAR 5,500 received 2026-09-28 will show in the October update."},
+      "expect": {"route": "REVIEW", "rule": "A-05", "group": "dispute-analysts", "recommendation": "VERIFY_AS_REPORTED"}
+    },
+    "noResponse": {
+      "start": {"disputeId": "D-26-10424", "consumerId": "C-88311452", "consumerName": "Marcus Bell", "jurisdiction": "US", "disputeType": "NOT_OWED",
+        "vulnerableConsumer": false, "channel": "Online dispute centre", "furnisher": "Northgate Collections", "accountRef": "****7730",
+        "consumerStatement": "I cancelled this gym membership in writing in 2025 and do not owe this collection."},
+      "furnisher": {"respondAfterSeconds": -1},
+      "expect": {"route": "UNVERIFIED_DELETE"}
+    },
+    "vulnerable": {
+      "start": {"disputeId": "D-26-10425", "consumerId": "C-IN-3390174", "consumerName": "Lakshmi Iyer", "jurisdiction": "IN", "disputeType": "LATE_PAYMENT",
+        "vulnerableConsumer": true, "channel": "Branch referral, Chennai", "furnisher": "Kaveri Finance", "accountRef": "****5508",
+        "consumerStatement": "My loan shows as overdue for July to September. I was in hospital and the lender agreed a moratorium for those months."},
+      "furnisher": {"respondAfterSeconds": 6, "position": "AGREES_WITH_CONSUMER", "code": "MODIFY",
+        "detail": "Moratorium granted 2026-07-05 for July to September 2026. Report as restructured, not overdue."},
+      "expect": {"route": "REVIEW", "rule": "A-02", "group": "senior-analysts", "recommendation": "CORRECT"}
+    },
+    "systemLocked": {
+      "start": {"disputeId": "D-26-10426", "consumerId": "C-UK-7718820", "consumerName": "Oliver Hughes", "jurisdiction": "UK", "disputeType": "LATE_PAYMENT",
+        "vulnerableConsumer": false, "channel": "Online dispute centre", "furnisher": "Albion Energy", "accountRef": "****1186",
+        "consumerStatement": "My direct debit was collected on the due date in August. I have never paid Albion late."},
+      "furnisher": {"respondAfterSeconds": 6, "position": "AGREES_WITH_CONSUMER", "code": "MODIFY",
+        "detail": "Direct debit collected 2026-08-12. Late marker was sent in error. Remove the August late payment."},
+      "lockCreditFile": true,
+      "expect": {"route": "AUTO_APPLY", "rule": "A-06", "recommendation": "CORRECT", "incident": "credit file record locked"}
+    },
+    "partialEvidence": {
+      "start": {"disputeId": "D-26-10427", "consumerId": "C-88312004", "consumerName": "Dana Whitfield", "jurisdiction": "US", "disputeType": "LATE_PAYMENT",
+        "vulnerableConsumer": false, "channel": "Online dispute centre", "furnisher": "Meridian Card Services", "accountRef": "****3820",
+        "consumerStatement": "I paid before the due date in May. I uploaded my statement."},
+      "furnisher": {"respondAfterSeconds": 6, "position": "AGREES_WITH_CONSUMER", "code": "MODIFY",
+        "detail": "Payment received 2026-05-05. Remove the 30-day late for May 2026."},
+      "expect": {"route": "REVIEW", "rule": "A-07", "group": "dispute-analysts", "recommendation": "CORRECT"}
+    }
+  },
+  "incidents": {
+    "disputeLatency": {"alertId": "ALR-77120", "service": "dispute-intake-api", "source": "Observability platform",
+      "title": "Dispute Intake API p95 latency 4.8 s (SLO 1.5 s), error rate 7.2%",
+      "expect": {"priority": "P1", "major": true}},
+    "ingestDelay": {"alertId": "ALR-77121", "service": "furnisher-ingest-batch", "source": "Batch scheduler",
+      "title": "Nightly Metro 2 furnisher ingest 46 minutes late",
+      "expect": {"priority": "P3", "major": false}},
+    "certExpiry": {"alertId": "ALR-77122", "service": "partner-sftp", "source": "Certificate monitor",
+      "title": "TLS certificate on partner SFTP gateway expires in 9 days",
+      "expect": {"priority": "P4", "major": false}}
+  }
+}

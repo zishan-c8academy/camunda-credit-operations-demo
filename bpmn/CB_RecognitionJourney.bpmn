@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Defs_CB_RecognitionJourney" targetNamespace="http://camunda.org/schema/1.0/bpmn" exporter="cb-camunda-demo build.py" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.10.0">
+<bpmn:message id="Msg_Achievement" name="cb-achievement" />
+<bpmn:process id="CB_RecognitionJourney" name="Recognition journey: points, badges, leaderboard" isExecutable="true"><bpmn:documentation>Every resolved case, SLA hit and adopted improvement emits an achievement event. Points come from a decision table, with a daily cap; badges above a threshold need a manager's approval.</bpmn:documentation>
+<bpmn:startEvent id="AchievementEvent" name="Achievement event"><bpmn:outgoing>Flow_AchievementEvent_ReadLedger</bpmn:outgoing><bpmn:messageEventDefinition id="AchievementEvent_def" messageRef="Msg_Achievement" /></bpmn:startEvent>
+<bpmn:serviceTask id="ReadLedger" name="Read points ledger"><bpmn:extensionElements><zeebe:taskDefinition type="cb.points.read" retries="3" /></bpmn:extensionElements><bpmn:incoming>Flow_AchievementEvent_ReadLedger</bpmn:incoming><bpmn:outgoing>Flow_ReadLedger_ScorePoints</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:businessRuleTask id="ScorePoints" name="Score event (DMN)"><bpmn:extensionElements><zeebe:calledDecision decisionId="CB_PointsScoring" resultVariable="basePoints" /></bpmn:extensionElements><bpmn:incoming>Flow_ReadLedger_ScorePoints</bpmn:incoming><bpmn:outgoing>Flow_ScorePoints_ApplyCap</bpmn:outgoing></bpmn:businessRuleTask>
+<bpmn:scriptTask id="ApplyCap" name="Apply daily cap"><bpmn:extensionElements><zeebe:script expression="=min([get or else(basePoints, 0), max([0, camunda.vars.env.CB_RECOGNITION.dailyCap - pointsToday])])" resultVariable="points" /></bpmn:extensionElements><bpmn:incoming>Flow_ScorePoints_ApplyCap</bpmn:incoming><bpmn:outgoing>Flow_ApplyCap_UpdateLedger</bpmn:outgoing></bpmn:scriptTask>
+<bpmn:serviceTask id="UpdateLedger" name="Update points ledger"><bpmn:extensionElements><zeebe:taskDefinition type="cb.points.update" retries="3" /></bpmn:extensionElements><bpmn:incoming>Flow_ApplyCap_UpdateLedger</bpmn:incoming><bpmn:outgoing>Flow_UpdateLedger_CheckReward</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:businessRuleTask id="CheckReward" name="Check reward eligibility (DMN)"><bpmn:extensionElements><zeebe:calledDecision decisionId="CB_RewardEligibility" resultVariable="reward" /></bpmn:extensionElements><bpmn:incoming>Flow_UpdateLedger_CheckReward</bpmn:incoming><bpmn:outgoing>Flow_CheckReward_BadgeGw</bpmn:outgoing></bpmn:businessRuleTask>
+<bpmn:exclusiveGateway id="BadgeGw" name="Badge earned?" default="Flow_NoBadge"><bpmn:incoming>Flow_CheckReward_BadgeGw</bpmn:incoming><bpmn:outgoing>Flow_BadgeGw_ApprovalGw</bpmn:outgoing><bpmn:outgoing>Flow_NoBadge</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:endEvent id="PointsRecorded" name="Points recorded"><bpmn:incoming>Flow_NoBadge</bpmn:incoming></bpmn:endEvent>
+<bpmn:exclusiveGateway id="ApprovalGw" name="Needs approval?" default="Flow_NoApproval"><bpmn:incoming>Flow_BadgeGw_ApprovalGw</bpmn:incoming><bpmn:outgoing>Flow_ApprovalGw_ApproveReward</bpmn:outgoing><bpmn:outgoing>Flow_NoApproval</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:userTask id="ApproveReward" name="Approve recognition reward"><bpmn:extensionElements><zeebe:userTask /><zeebe:formDefinition formId="CB_RewardApprovalForm" /><zeebe:assignmentDefinition candidateGroups="team-managers" /><zeebe:priorityDefinition priority="=40" /><zeebe:ioMapping><zeebe:output source="=managerDecision" target="managerDecision" /><zeebe:output source="=get or else(managerNote, &quot;&quot;)" target="managerNote" /></zeebe:ioMapping></bpmn:extensionElements><bpmn:incoming>Flow_ApprovalGw_ApproveReward</bpmn:incoming><bpmn:outgoing>Flow_ApproveReward_RewardMerge</bpmn:outgoing></bpmn:userTask>
+<bpmn:exclusiveGateway id="RewardMerge" name=""><bpmn:incoming>Flow_NoApproval</bpmn:incoming><bpmn:incoming>Flow_ApproveReward_RewardMerge</bpmn:incoming><bpmn:outgoing>Flow_RewardMerge_AwardBadge</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:serviceTask id="AwardBadge" name="Award badge, update leaderboard"><bpmn:extensionElements><zeebe:taskDefinition type="cb.points.award" retries="3" /></bpmn:extensionElements><bpmn:incoming>Flow_RewardMerge_AwardBadge</bpmn:incoming><bpmn:outgoing>Flow_AwardBadge_BadgeAwarded</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:endEvent id="BadgeAwarded" name="Badge awarded"><bpmn:incoming>Flow_AwardBadge_BadgeAwarded</bpmn:incoming></bpmn:endEvent>
+<bpmn:sequenceFlow id="Flow_AchievementEvent_ReadLedger" sourceRef="AchievementEvent" targetRef="ReadLedger"></bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_ReadLedger_ScorePoints" sourceRef="ReadLedger" targetRef="ScorePoints"></bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_ScorePoints_ApplyCap" sourceRef="ScorePoints" targetRef="ApplyCap"></bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_ApplyCap_UpdateLedger" sourceRef="ApplyCap" targetRef="UpdateLedger"></bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_UpdateLedger_CheckReward" sourceRef="UpdateLedger" targetRef="CheckReward"></bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_CheckReward_BadgeGw" sourceRef="CheckReward" targetRef="BadgeGw"></bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_BadgeGw_ApprovalGw" name="Yes" sourceRef="BadgeGw" targetRef="ApprovalGw"><bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=reward.badge != "NONE"</bpmn:conditionExpression></bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_NoBadge" name="No" sourceRef="BadgeGw" targetRef="PointsRecorded"></bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_ApprovalGw_ApproveReward" name="Yes" sourceRef="ApprovalGw" targetRef="ApproveReward"><bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=reward.needsApproval</bpmn:conditionExpression></bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_NoApproval" name="No" sourceRef="ApprovalGw" targetRef="RewardMerge"></bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_ApproveReward_RewardMerge" sourceRef="ApproveReward" targetRef="RewardMerge"></bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_RewardMerge_AwardBadge" sourceRef="RewardMerge" targetRef="AwardBadge"></bpmn:sequenceFlow>
+<bpmn:sequenceFlow id="Flow_AwardBadge_BadgeAwarded" sourceRef="AwardBadge" targetRef="BadgeAwarded"></bpmn:sequenceFlow>
+</bpmn:process>
+<bpmndi:BPMNDiagram id="Diagram_CB_RecognitionJourney"><bpmndi:BPMNPlane id="Plane_CB_RecognitionJourney" bpmnElement="CB_RecognitionJourney">
+<bpmndi:BPMNShape id="AchievementEvent_di" bpmnElement="AchievementEvent"><dc:Bounds x="72" y="282" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="35" y="322" width="110" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="ReadLedger_di" bpmnElement="ReadLedger"><dc:Bounds x="165" y="260" width="110" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="ScorePoints_di" bpmnElement="ScorePoints"><dc:Bounds x="305" y="260" width="110" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="ApplyCap_di" bpmnElement="ApplyCap"><dc:Bounds x="445" y="260" width="110" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="UpdateLedger_di" bpmnElement="UpdateLedger"><dc:Bounds x="585" y="260" width="110" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="CheckReward_di" bpmnElement="CheckReward"><dc:Bounds x="725" y="260" width="110" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="BadgeGw_di" bpmnElement="BadgeGw"><dc:Bounds x="875" y="275" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="845" y="241" width="110" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="PointsRecorded_di" bpmnElement="PointsRecorded"><dc:Bounds x="882" y="442" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="845" y="482" width="110" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="ApprovalGw_di" bpmnElement="ApprovalGw"><dc:Bounds x="985" y="275" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="955" y="241" width="110" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="ApproveReward_di" bpmnElement="ApproveReward"><dc:Bounds x="1075" y="150" width="110" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="RewardMerge_di" bpmnElement="RewardMerge"><dc:Bounds x="1225" y="275" width="50" height="50" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="AwardBadge_di" bpmnElement="AwardBadge"><dc:Bounds x="1315" y="260" width="110" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="BadgeAwarded_di" bpmnElement="BadgeAwarded"><dc:Bounds x="1482" y="282" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="1445" y="322" width="110" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNEdge id="Flow_AchievementEvent_ReadLedger_di" bpmnElement="Flow_AchievementEvent_ReadLedger"><di:waypoint x="108" y="300" /><di:waypoint x="165" y="300" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_ReadLedger_ScorePoints_di" bpmnElement="Flow_ReadLedger_ScorePoints"><di:waypoint x="275" y="300" /><di:waypoint x="305" y="300" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_ScorePoints_ApplyCap_di" bpmnElement="Flow_ScorePoints_ApplyCap"><di:waypoint x="415" y="300" /><di:waypoint x="445" y="300" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_ApplyCap_UpdateLedger_di" bpmnElement="Flow_ApplyCap_UpdateLedger"><di:waypoint x="555" y="300" /><di:waypoint x="585" y="300" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_UpdateLedger_CheckReward_di" bpmnElement="Flow_UpdateLedger_CheckReward"><di:waypoint x="695" y="300" /><di:waypoint x="725" y="300" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_CheckReward_BadgeGw_di" bpmnElement="Flow_CheckReward_BadgeGw"><di:waypoint x="835" y="300" /><di:waypoint x="875" y="300" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_BadgeGw_ApprovalGw_di" bpmnElement="Flow_BadgeGw_ApprovalGw"><di:waypoint x="925" y="300" /><di:waypoint x="985" y="300" /><bpmndi:BPMNLabel><dc:Bounds x="933" y="278" width="90" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_NoBadge_di" bpmnElement="Flow_NoBadge"><di:waypoint x="900" y="325" /><di:waypoint x="900" y="442" /><bpmndi:BPMNLabel><dc:Bounds x="906" y="374" width="90" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_ApprovalGw_ApproveReward_di" bpmnElement="Flow_ApprovalGw_ApproveReward"><di:waypoint x="1010" y="275" /><di:waypoint x="1010" y="190" /><di:waypoint x="1075" y="190" /><bpmndi:BPMNLabel><dc:Bounds x="1016" y="222" width="90" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_NoApproval_di" bpmnElement="Flow_NoApproval"><di:waypoint x="1035" y="300" /><di:waypoint x="1225" y="300" /><bpmndi:BPMNLabel><dc:Bounds x="1043" y="278" width="90" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_ApproveReward_RewardMerge_di" bpmnElement="Flow_ApproveReward_RewardMerge"><di:waypoint x="1185" y="190" /><di:waypoint x="1250" y="190" /><di:waypoint x="1250" y="275" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_RewardMerge_AwardBadge_di" bpmnElement="Flow_RewardMerge_AwardBadge"><di:waypoint x="1275" y="300" /><di:waypoint x="1315" y="300" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_AwardBadge_BadgeAwarded_di" bpmnElement="Flow_AwardBadge_BadgeAwarded"><di:waypoint x="1425" y="300" /><di:waypoint x="1482" y="300" /></bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
+</bpmn:definitions>

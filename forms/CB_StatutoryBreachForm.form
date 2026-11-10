@@ -1,0 +1,43 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": {
+    "name": "cb-camunda-demo build.py",
+    "version": "1"
+  },
+  "schemaVersion": 18,
+  "id": "CB_StatutoryBreachForm",
+  "type": "default",
+  "components": [
+    {
+      "type": "text",
+      "text": "## Statutory deadline reached\nDispute {{disputeId}} ({{jurisdiction}}, {{clock.regulation}}) passed its due date {{clock.dueDate}}.",
+      "id": "CB_StatutoryBreachForm_f0"
+    },
+    {
+      "type": "radio",
+      "key": "complianceAction",
+      "label": "Action",
+      "validate": {
+        "required": true
+      },
+      "values": [
+        {
+          "label": "Delete the disputed item now",
+          "value": "DELETE_NOW"
+        },
+        {
+          "label": "Record exception and notify regulator log",
+          "value": "LOG_EXCEPTION"
+        }
+      ],
+      "id": "CB_StatutoryBreachForm_f1"
+    },
+    {
+      "type": "textarea",
+      "key": "complianceNotes",
+      "label": "Notes",
+      "id": "CB_StatutoryBreachForm_f2"
+    }
+  ]
+}

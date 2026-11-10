@@ -1,0 +1,43 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": {
+    "name": "cb-camunda-demo build.py",
+    "version": "1"
+  },
+  "schemaVersion": 18,
+  "id": "CB_RewardApprovalForm",
+  "type": "default",
+  "components": [
+    {
+      "type": "text",
+      "text": "## Recognition reward for {{employee}}\n{{reward.badge}}: {{reward.rewardName}}. Total points {{newTotal}}.",
+      "id": "CB_RewardApprovalForm_f0"
+    },
+    {
+      "type": "radio",
+      "key": "managerDecision",
+      "label": "Decision",
+      "validate": {
+        "required": true
+      },
+      "values": [
+        {
+          "label": "Approve",
+          "value": "APPROVE"
+        },
+        {
+          "label": "Decline",
+          "value": "DECLINE"
+        }
+      ],
+      "id": "CB_RewardApprovalForm_f1"
+    },
+    {
+      "type": "textarea",
+      "key": "managerNote",
+      "label": "Note to the employee",
+      "id": "CB_RewardApprovalForm_f2"
+    }
+  ]
+}

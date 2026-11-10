@@ -1,0 +1,62 @@
+{
+ "D-26-10421": [
+  {
+   "type": "Bank statement (extracted)",
+   "fileName": "bank-statement-march-2026.pdf",
+   "file": "D-26-10421-1.pdf",
+   "thumb": "D-26-10421-1.png"
+  }
+ ],
+ "D-26-10422": [
+  {
+   "type": "FTC identity theft report",
+   "fileName": "identity-theft-report-IDT-26-448120.pdf",
+   "file": "D-26-10422-1.pdf",
+   "thumb": "D-26-10422-1.png"
+  },
+  {
+   "type": "Proof of address",
+   "fileName": "utility-bill-willow-lane.pdf",
+   "file": "D-26-10422-2.pdf",
+   "thumb": "D-26-10422-2.png"
+  }
+ ],
+ "D-26-10423": [
+  {
+   "type": "Proof of payment (extracted)",
+   "fileName": "eft-proof-of-payment-UHF-88213.pdf",
+   "file": "D-26-10423-1.pdf",
+   "thumb": "D-26-10423-1.png"
+  }
+ ],
+ "D-26-10425": [
+  {
+   "type": "Hospital discharge summary",
+   "fileName": "discharge-summary.pdf",
+   "file": "D-26-10425-1.pdf",
+   "thumb": "D-26-10425-1.png"
+  },
+  {
+   "type": "Lender letter",
+   "fileName": "kaveri-finance-moratorium-letter.pdf",
+   "file": "D-26-10425-2.pdf",
+   "thumb": "D-26-10425-2.png"
+  }
+ ],
+ "D-26-10426": [
+  {
+   "type": "Direct debit confirmation",
+   "fileName": "albion-energy-direct-debit.pdf",
+   "file": "D-26-10426-1.pdf",
+   "thumb": "D-26-10426-1.png"
+  }
+ ],
+ "D-26-10427": [
+  {
+   "type": "Bank statement (extracted)",
+   "fileName": "bank-statement-photo.pdf",
+   "file": "D-26-10427-1.pdf",
+   "thumb": "D-26-10427-1.png"
+  }
+ ]
+}

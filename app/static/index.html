@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Credit Operations Workbench</title>
+<link rel="icon" href="/assets/workbench-mark.svg">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><img src="/assets/workbench-mark.svg" alt=""><span class="app">Credit Operations Workbench</span><span class="unit">Fictional credit bureau</span></div>
+  <div class="persona">
+    <label for="persona">Signed in as</label>
+    <select id="persona"></select>
+  </div>
+</header>
+<div class="shell">
+  <nav class="side" id="nav">
+    <a href="#/queue" data-r="queue">My work</a>
+    <a href="#/disputes" data-r="disputes">Disputes</a>
+    <a href="#/incidents" data-r="incidents">Incidents</a>
+    <a href="#/improve" data-r="improve">Rule improvement</a>
+    <a href="#/recognition" data-r="recognition">Recognition</a>
+    <a href="#/governance" data-r="governance">AI governance</a>
+    <div class="navfoot" id="navfoot"></div>
+  </nav>
+  <main id="main"></main>
+</div>
+<div id="toast"></div>
+<script src="/app.js"></script>
+</body>
+</html>

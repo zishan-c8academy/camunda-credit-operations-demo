@@ -1,0 +1,133 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": {
+    "name": "cb-camunda-demo build.py",
+    "version": "1"
+  },
+  "schemaVersion": 18,
+  "id": "CB_DisputeReviewForm",
+  "type": "default",
+  "components": [
+    {
+      "type": "text",
+      "text": "## Dispute {{disputeId}}: {{consumerName}}\n{{disputeType}} on {{furnisher}} {{accountRef}}, {{jurisdiction}}. Statutory due date {{clock.dueDate}}.",
+      "id": "CB_DisputeReviewForm_f0"
+    },
+    {
+      "type": "textfield",
+      "key": "aiRecommendation",
+      "label": "AI recommendation",
+      "readonly": true,
+      "id": "CB_DisputeReviewForm_f1"
+    },
+    {
+      "type": "textfield",
+      "key": "aiConfidence",
+      "label": "Evidence score",
+      "readonly": true,
+      "id": "CB_DisputeReviewForm_f2"
+    },
+    {
+      "type": "textfield",
+      "key": "aiCorrection",
+      "label": "Proposed correction",
+      "readonly": true,
+      "id": "CB_DisputeReviewForm_f3"
+    },
+    {
+      "type": "textfield",
+      "key": "authorityReason",
+      "label": "Why this needs your sign-off",
+      "readonly": true,
+      "id": "CB_DisputeReviewForm_f4"
+    },
+    {
+      "type": "textarea",
+      "key": "aiSummary",
+      "label": "Investigator summary",
+      "readonly": true,
+      "id": "CB_DisputeReviewForm_f5"
+    },
+    {
+      "type": "textarea",
+      "key": "evidenceText",
+      "label": "Evidence cited",
+      "readonly": true,
+      "id": "CB_DisputeReviewForm_f6"
+    },
+    {
+      "type": "documentPreview",
+      "label": "Consumer evidence",
+      "dataSource": "=evidenceDocuments",
+      "maxHeight": 420,
+      "conditional": {
+        "hide": "=evidenceDocuments = null or count(evidenceDocuments) = 0"
+      },
+      "id": "CB_DisputeReviewForm_f7"
+    },
+    {
+      "type": "radio",
+      "key": "analystDecision",
+      "label": "Your decision",
+      "validate": {
+        "required": true
+      },
+      "values": [
+        {
+          "label": "Approve the recommendation",
+          "value": "APPROVE"
+        },
+        {
+          "label": "Override",
+          "value": "OVERRIDE"
+        }
+      ],
+      "id": "CB_DisputeReviewForm_f8"
+    },
+    {
+      "type": "select",
+      "key": "overrideOutcome",
+      "label": "Outcome instead",
+      "conditional": {
+        "hide": "=analystDecision != \"OVERRIDE\""
+      },
+      "values": [
+        {
+          "label": "Correct the item",
+          "value": "CORRECT"
+        },
+        {
+          "label": "Delete the item",
+          "value": "DELETE"
+        },
+        {
+          "label": "Verify as reported",
+          "value": "VERIFY_AS_REPORTED"
+        }
+      ],
+      "id": "CB_DisputeReviewForm_f9"
+    },
+    {
+      "type": "textarea",
+      "key": "overrideReason",
+      "label": "Reason for override",
+      "conditional": {
+        "hide": "=analystDecision != \"OVERRIDE\""
+      },
+      "id": "CB_DisputeReviewForm_f10"
+    },
+    {
+      "type": "textarea",
+      "key": "consumerLetter",
+      "label": "Letter to the consumer",
+      "id": "CB_DisputeReviewForm_f11"
+    },
+    {
+      "type": "textfield",
+      "key": "reviewerName",
+      "label": "Your name",
+      "id": "CB_DisputeReviewForm_f12"
+    }
+  ]
+}

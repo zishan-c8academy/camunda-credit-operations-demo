@@ -1,0 +1,34 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": {
+    "name": "cb-camunda-demo build.py",
+    "version": "1"
+  },
+  "schemaVersion": 18,
+  "id": "CB_SpecialistQuestionForm",
+  "type": "default",
+  "components": [
+    {
+      "type": "text",
+      "text": "## The dispute investigator has a question\nDispute {{disputeId}}, {{consumerName}}",
+      "id": "CB_SpecialistQuestionForm_f0"
+    },
+    {
+      "type": "textarea",
+      "key": "agentQuestion",
+      "label": "Question",
+      "readonly": true,
+      "id": "CB_SpecialistQuestionForm_f1"
+    },
+    {
+      "type": "textarea",
+      "key": "specialistAnswer",
+      "label": "Your answer",
+      "validate": {
+        "required": true
+      },
+      "id": "CB_SpecialistQuestionForm_f2"
+    }
+  ]
+}

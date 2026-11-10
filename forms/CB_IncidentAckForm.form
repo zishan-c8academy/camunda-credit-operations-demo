@@ -1,0 +1,38 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": {
+    "name": "cb-camunda-demo build.py",
+    "version": "1"
+  },
+  "schemaVersion": 18,
+  "id": "CB_IncidentAckForm",
+  "type": "default",
+  "components": [
+    {
+      "type": "text",
+      "text": "## {{priorityShown}}: {{alert.title}}\nIncident {{incidentId}}",
+      "id": "CB_IncidentAckForm_f0"
+    },
+    {
+      "type": "textarea",
+      "key": "triageSummary",
+      "label": "Triage summary",
+      "readonly": true,
+      "id": "CB_IncidentAckForm_f1"
+    },
+    {
+      "type": "textarea",
+      "key": "firstActionsText",
+      "label": "Suggested first actions",
+      "readonly": true,
+      "id": "CB_IncidentAckForm_f2"
+    },
+    {
+      "type": "textarea",
+      "key": "ackNote",
+      "label": "Acknowledgement note",
+      "id": "CB_IncidentAckForm_f3"
+    }
+  ]
+}

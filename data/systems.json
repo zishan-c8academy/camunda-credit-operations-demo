@@ -1,0 +1,76 @@
+{
+  "creditFile": {
+    "D-26-10421": {"consumerId": "C-88310427", "furnisher": "Meridian Card Services", "accountRef": "****4417", "accountType": "Revolving credit card",
+      "reportedStatus": "30 days past due, March 2026", "paymentDueDate": "2026-03-03", "paymentHistory24m": "CCCCCCCCCCCCCCCCCCCCC1CC", "balance": "USD 1,982", "lastReported": "2026-10-31"},
+    "D-26-10422": {"consumerId": "C-88310988", "furnisher": "Lakeshore Auto Finance", "accountRef": "****9052", "accountType": "Auto loan",
+      "reportedStatus": "Open, 60 days past due", "opened": "2026-06-14", "addressOnAccount": "4410 Desert Bloom Ave, Henderson, NV", "balance": "USD 23,640", "lastReported": "2026-10-31"},
+    "D-26-10423": {"consumerId": "C-ZA-5521907", "furnisher": "Ubuntu Home Furnishers", "accountRef": "****2271", "accountType": "Store card",
+      "reportedStatus": "Current", "balance": "ZAR 14,820", "balanceReportingDate": "2026-09-25", "lastReported": "2026-09-30"},
+    "D-26-10424": {"consumerId": "C-88311452", "furnisher": "Northgate Collections", "accountRef": "****7730", "accountType": "Collection account (original creditor: FlexFit Gyms)",
+      "reportedStatus": "Collection, unpaid", "balance": "USD 640", "opened": "2025-11-02", "lastReported": "2026-10-15"},
+    "D-26-10425": {"consumerId": "C-IN-3390174", "furnisher": "Kaveri Finance", "accountRef": "****5508", "accountType": "Personal loan",
+      "reportedStatus": "Overdue 90 days, July to September 2026", "balance": "INR 3,42,000", "lastReported": "2026-10-10"},
+    "D-26-10426": {"consumerId": "C-UK-7718820", "furnisher": "Albion Energy", "accountRef": "****1186", "accountType": "Utility (energy)",
+      "reportedStatus": "1 payment late, August 2026", "paymentDueDate": "2026-08-12", "balance": "GBP 0", "lastReported": "2026-10-20"},
+    "D-26-10427": {"consumerId": "C-88312004", "furnisher": "Meridian Card Services", "accountRef": "****3820", "accountType": "Revolving credit card",
+      "reportedStatus": "30 days past due, May 2026", "paymentDueDate": "2026-05-06", "balance": "USD 744", "lastReported": "2026-10-31"}
+  },
+  "consumerEvidence": {
+    "D-26-10421": {"documentStatus": "DOCUMENTED", "documents": [{"type": "Bank statement (extracted)", "finding": "Payment of USD 412.00 to Meridian Card Services on 2026-03-02, reference MCS-4417-0302"}]},
+    "D-26-10422": {"documentStatus": "DOCUMENTED", "documents": [{"type": "FTC identity theft report", "finding": "IdentityTheft.gov report IDT-26-448120 filed 2026-10-19 naming Lakeshore Auto Finance account ****9052"}, {"type": "Proof of address", "finding": "Consumer has lived at 18 Willow Lane, Columbus, OH since 2019"}]},
+    "D-26-10423": {"documentStatus": "PARTIAL", "documents": [{"type": "Proof of payment (extracted)", "finding": "EFT of ZAR 5,500.00 to Ubuntu Home Furnishers on 2026-09-28, reference UHF-88213"}]},
+    "D-26-10424": {"documentStatus": "NONE", "documents": [], "consumerStatement": "I cancelled this membership in writing in 2025 and do not owe this."},
+    "D-26-10425": {"documentStatus": "DOCUMENTED", "documents": [{"type": "Hospital discharge summary", "finding": "Inpatient 2026-06-28 to 2026-08-30"}, {"type": "Lender letter", "finding": "Kaveri Finance letter dated 2026-07-05 granting a 3-month repayment moratorium, July to September 2026"}]},
+    "D-26-10426": {"documentStatus": "DOCUMENTED", "documents": [{"type": "Direct debit confirmation", "finding": "Albion Energy direct debit of GBP 96.40 collected 2026-08-12"}]},
+    "D-26-10427": {"documentStatus": "PARTIAL", "documents": [{"type": "Bank statement (extracted)", "finding": "Payment of USD 120.00 to Meridian Card Services; date column cropped on the upload"}]}
+  },
+  "disputeHistory": {
+    "C-88310427": {"disputes12m": 0, "items": []},
+    "C-88310988": {"disputes12m": 1, "items": [{"id": "D-26-09811", "outcome": "Fraud alert added at consumer request", "date": "2026-10-19"}]},
+    "C-ZA-5521907": {"disputes12m": 0, "items": []},
+    "C-88311452": {"disputes12m": 0, "items": []},
+    "C-IN-3390174": {"disputes12m": 0, "items": []},
+    "C-UK-7718820": {"disputes12m": 0, "items": []},
+    "C-88312004": {"disputes12m": 0, "items": []}
+  },
+  "fraudSignals": {
+    "C-88310427": {"signals": [], "identityVerified": true},
+    "C-88310988": {"signals": ["Address on account never linked to consumer", "Three hard inquiries in 9 days in June 2026", "Identity theft report on file"], "identityVerified": true},
+    "C-ZA-5521907": {"signals": [], "identityVerified": true},
+    "C-88311452": {"signals": [], "identityVerified": true},
+    "C-IN-3390174": {"signals": [], "identityVerified": true},
+    "C-UK-7718820": {"signals": [], "identityVerified": true},
+    "C-88312004": {"signals": [], "identityVerified": true}
+  },
+  "policies": {
+    "US": {"regulation": "Fair Credit Reporting Act, section 611 (15 U.S.C. 1681i)", "text": "Reinvestigate within 30 days of receipt (45 if the consumer sends more information). Notify the furnisher within 5 business days. If the information is inaccurate, incomplete or cannot be verified, delete or modify it. Send results to the consumer within 5 business days of completion. Identity theft: block reported information on receipt of an identity theft report (section 605B)."},
+    "ZA": {"regulation": "National Credit Act 34 of 2005, section 72 and Regulation 20", "text": "Resolve the dispute within 20 business days. If the bureau cannot find credible evidence supporting the information, remove it. Notify the consumer of the outcome."},
+    "IN": {"regulation": "CICRA 2005 and RBI framework for credit information complaints (October 2023)", "text": "Resolve within 30 calendar days: 21 days for the credit institution, 9 for the bureau. Compensation of INR 100 per day applies after that. Restructured or moratorium accounts must be reported as agreed with the lender."},
+    "UK": {"regulation": "Consumer Credit Act 1974, section 159", "text": "Respond within 28 days. Correct or remove the entry, or add the consumer's notice of correction, and tell the consumer what was done."}
+  },
+  "services": {
+    "dispute-intake-api": {"name": "Dispute Intake API", "owner": "Consumer Relations Platform", "resolverGroup": "dispute-platform-oncall", "customerFacing": true, "regulatoryService": true, "dependencies": ["oracle-dispute-db", "identity-service"], "tier": 1},
+    "furnisher-ingest-batch": {"name": "Furnisher file ingest (Metro 2)", "owner": "Data Acquisition", "resolverGroup": "data-ingest-oncall", "customerFacing": false, "regulatoryService": true, "dependencies": ["sftp-gateway"], "tier": 2},
+    "partner-sftp": {"name": "Partner SFTP gateway", "owner": "Infrastructure", "resolverGroup": "infra-oncall", "customerFacing": false, "regulatoryService": false, "dependencies": [], "tier": 3}
+  },
+  "health": {
+    "dispute-intake-api": {"sloP95Ms": 1500, "p95Ms": 4810, "errorRatePct": 7.2, "trend": "worsening for 18 minutes", "consumersAffectedEstimate": 3400, "openDisputesInFlight": 1260},
+    "furnisher-ingest-batch": {"sloMinutesLate": 30, "minutesLate": 46, "trend": "stable", "filesWaiting": 3, "consumersAffectedEstimate": 0},
+    "partner-sftp": {"certificateExpiresInDays": 9, "trend": "future risk", "consumersAffectedEstimate": 0}
+  },
+  "changes": {
+    "dispute-intake-api": [{"id": "CHG-58231", "deployedAt": "today 07:42", "summary": "Connection pool size reduced from 200 to 40 on dispute-intake-api", "by": "Consumer Relations Platform"}],
+    "furnisher-ingest-batch": [{"id": "CHG-58190", "deployedAt": "yesterday 18:10", "summary": "New file validation rules for Metro 2 segment K1", "by": "Data Acquisition"}],
+    "partner-sftp": []
+  },
+  "incidentHistory": {
+    "dispute-intake-api": [{"id": "INC-25-0311", "summary": "Dispute intake latency after pool configuration change", "resolution": "Rolled back pool configuration; recovered in 12 minutes", "severity": "P1"}],
+    "furnisher-ingest-batch": [{"id": "INC-26-0094", "summary": "Metro 2 ingest delayed by validation rule", "resolution": "Rule hotfix; files reprocessed", "severity": "P3"}],
+    "partner-sftp": [{"id": "INC-25-0870", "summary": "Expired TLS certificate on partner SFTP", "resolution": "Certificate renewed", "severity": "P2"}]
+  },
+  "runbooks": {
+    "dispute-intake-api": {"id": "RB-DISP-01", "steps": ["Check connection pool saturation", "If a configuration change was deployed in the last 2 hours, roll it back", "Pause outbound consumer notifications if error rate exceeds 5%", "Tell Consumer Relations which statutory clocks are at risk"]},
+    "furnisher-ingest-batch": {"id": "RB-ING-04", "steps": ["Check the validation rule log", "Reprocess rejected files after the fix", "Tell Data Acquisition leads if more than 60 minutes late"]},
+    "partner-sftp": {"id": "RB-INF-12", "steps": ["Request certificate renewal", "Schedule the rotation in the next change window"]}
+  }
+}

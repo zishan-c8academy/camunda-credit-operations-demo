@@ -1,0 +1,85 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": {
+    "name": "cb-camunda-demo build.py",
+    "version": "1"
+  },
+  "schemaVersion": 18,
+  "id": "CB_RuleChangeApprovalForm",
+  "type": "default",
+  "components": [
+    {
+      "type": "text",
+      "text": "## Proposed change to the dispute approval authority table",
+      "id": "CB_RuleChangeApprovalForm_f0"
+    },
+    {
+      "type": "textfield",
+      "key": "parameterShown",
+      "label": "Parameter",
+      "readonly": true,
+      "id": "CB_RuleChangeApprovalForm_f1"
+    },
+    {
+      "type": "textfield",
+      "key": "currentShown",
+      "label": "Current value",
+      "readonly": true,
+      "id": "CB_RuleChangeApprovalForm_f2"
+    },
+    {
+      "type": "textfield",
+      "key": "proposedShown",
+      "label": "Proposed value",
+      "readonly": true,
+      "id": "CB_RuleChangeApprovalForm_f3"
+    },
+    {
+      "type": "textarea",
+      "key": "rationaleShown",
+      "label": "Rationale",
+      "readonly": true,
+      "id": "CB_RuleChangeApprovalForm_f4"
+    },
+    {
+      "type": "textfield",
+      "key": "backtestShown",
+      "label": "Backtest",
+      "readonly": true,
+      "id": "CB_RuleChangeApprovalForm_f5"
+    },
+    {
+      "type": "textfield",
+      "key": "riskShown",
+      "label": "Risk",
+      "readonly": true,
+      "id": "CB_RuleChangeApprovalForm_f6"
+    },
+    {
+      "type": "radio",
+      "key": "ruleOwnerDecision",
+      "label": "Decision",
+      "validate": {
+        "required": true
+      },
+      "values": [
+        {
+          "label": "Approve and deploy",
+          "value": "APPROVE"
+        },
+        {
+          "label": "Reject",
+          "value": "REJECT"
+        }
+      ],
+      "id": "CB_RuleChangeApprovalForm_f7"
+    },
+    {
+      "type": "textarea",
+      "key": "ruleOwnerComments",
+      "label": "Comments",
+      "id": "CB_RuleChangeApprovalForm_f8"
+    }
+  ]
+}

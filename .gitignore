@@ -1,0 +1,9 @@
+.env
+*.env
+!.env.example
+__pycache__/
+app/cb.db
+app/server.log
+data/policy_state.json
+docs/VERIFY_LOG.md
+.DS_Store
