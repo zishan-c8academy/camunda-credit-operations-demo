@@ -14,6 +14,10 @@ four processes, six decision tables, eight forms, three AI agents, a workbench U
 
 All data is synthetic. The bureau, consumers, furnishers, documents and systems are fictional.
 
+**Watch it first:** a [12 minute walkthrough](https://view-su3.highspot.com/viewer/447cd83c044511fb16bea019b516a43f) of the
+whole demo, in five chapters: a dispute end to end, every route and exception, a production incident, rules that learn,
+and governance.
+
 ## What you need
 
 | | |
